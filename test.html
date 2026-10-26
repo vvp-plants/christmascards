@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Christmas Magic 🎄</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    color: white;
+    background: radial-gradient(
+      ellipse at top, #205b42 0%, #0b3028 45%, #061c20 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+
+  .scene {
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    color: #f7d992;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-size: 11px;
+    animation: fadeIn 1.5s ease both;
+  }
+
+  h1 {
+    font-size: clamp(36px, 8vw, 64px);
+    margin: 16px 0 8px;
+    color: #ffe9b0;
+    text-shadow: 0 0 24px #f5c86a55;
+    animation: appear 1.2s ease both;
+  }
+
+  .subtitle {
+    color: #d7e8d9;
+    margin-bottom: 28px;
+  }
+
+  .tree {
+    font-size: clamp(95px, 22vw, 150px);
+    line-height: 1.3;
+    filter: drop-shadow(0 0 20px #ffd66b30);
+    animation: treeGlow 3s infinite alternate;
+  }
+
+  .star {
+    display: block;
+    color: #ffe49a;
+    font-size: 35px;
+    animation: twinkle 1.5s infinite alternate;
+  }
+
+  .lights {
+    font-size: 22px;
+    letter-spacing: 9px;
+    margin: 8px 0 20px;
+    animation: twinkle 2s infinite alternate;
+  }
+
+  .card {
+    padding: 28px 22px;
+    margin: 0 auto;
+    max-width: 500px;
+    border: 1px solid #e8c879;
+    border-radius: 18px;
+    background: linear-gradient(
+      145deg, #fff9e9, #f3e4c8
+    );
+    color: #264b37;
+    box-shadow: 0 15px 60px #0005;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .card.open {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card h2 {
+    color: #9c292d;
+    font-size: 30px;
+    margin: 0 0 15px;
+  }
+
+  .note {
+    white-space: pre-line;
+    line-height: 1.9;
+    font-size: 17px;
+  }
+
+  .signature {
+    color: #9c292d;
+    font-style: italic;
+    margin-top: 20px;
+    font-size: 20px;
+  }
+
+  button {
+    border: 1px solid #f8dda0;
+    border-radius: 40px;
+    background: #f8dda0;
+    color: #173b2d;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 14px 26px;
+    margin: 22px 6px 0;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    background: #fff0c6;
+  }
+
+  .hint {
+    color: #c4d9ce;
+    font-size: 13px;
+    margin-top: 16px;
+  }
+
+  .snowflake {
+    position: fixed;
+    top: -20px;
+    color: white;
+    pointer-events: none;
+    z-index: 0;
+    animation: fall linear infinite;
+    opacity: 0.8;
+  }
+
+  .footer {
+    margin-top: 30px;
+    color: #c4d9ce;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+    }
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.55; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1.08); }
+  }
+
+  @keyframes treeGlow {
+    from { filter: drop-shadow(0 0 8px #ffd66b20); }
+    to { filter: drop-shadow(0 0 28px #ffd66b55); }
+  }
+
+  @keyframes appear {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<main class="scene">
+  <div class="eyebrow">A little festive surprise</div>
+
+  <h1>Merry Christmas</h1>
+
+  <p class="subtitle">A little magic, made just for you ✨</p>
+
+  <span class="star">✦</span>
+  <div class="tree">🎄</div>
+  <div class="lights">✨ 🔴 ✨ 🟡 ✨</div>
+
+  <section class="card" id="card" aria-live="polite">
+    <h2>Dear Someone Special,</h2>
+
+    <div class="note" id="note"></div>
+
+    <div class="signature" id="signature"></div>
+  </section>
+
+  <button id="openButton" onclick="openCard()">
+    🎁 Open your Christmas card
+  </button>
+
+  <button onclick="closeCard()">
+    ↩ Close card
+  </button>
+
+  <p class="hint" id="hint">
+    There's a little Christmas message waiting for you...
+  </p>
+
+  <div class="footer">MADE WITH CHRISTMAS MAGIC ♥</div>
+</main>
+
+<script>
+  // ✨ PERSONALISE YOUR CHRISTMAS CARD HERE ✨
+
+  const recipient = "Dear Someone Special,";
+
+  const message = `Wishing you the happiest Christmas ever! 🎄
+
+I hope your holiday is filled with laughter,
+warm hugs, magical moments and lots of love.
+
+Thank you for being such a special person.
+May the New Year bring you happiness,
+wonderful memories and beautiful surprises.
+
+Sending you lots of Christmas cheer! ❤️`;
+
+  const sender = "With love, Your Name ❤️";
+
+  // You can customise the colours in the CSS above, too.
+
+  document.querySelector(".card h2").textContent = recipient;
+  document.getElementById("note").textContent = message;
+  document.getElementById("signature").textContent = sender;
+
+  function openCard() {
+    document.getElementById("card").classList.add("open");
+    document.getElementById("hint").textContent =
+      "A little wish, sent with love. Merry Christmas! ✨";
+
+    document.getElementById("openButton").textContent =
+      "🎄 Your card is open!";
+  }
+
+  function closeCard() {
+    document.getElementById("card").classList.remove("open");
+    document.getElementById("hint").textContent =
+      "Your Christmas surprise is waiting inside...";
+
+    document.getElementById("openButton").textContent =
+      "🎁 Open your Christmas card";
+  }
+
+  // Create gentle, falling snowflakes.
+  const snowSymbols = ["❄", "❅", "❆", "•"];
+
+  for (let i = 0; i < 65; i++) {
+    const snow = document.createElement("div");
+    snow.className = "snowflake";
+    snow.textContent =
+      snowSymbols[Math.floor(Math.random() * snowSymbols.length)];
+
+    snow.style.left = Math.random() * 100 + "vw";
+    snow.style.fontSize = (8 + Math.random() * 15) + "px";
+    snow.style.animationDuration = (6 + Math.random() * 12) + "s";
+    snow.style.animationDelay = (-Math.random() * 15) + "s";
+
+    document.body.appendChild(snow);
+  }
+</script>
+
+</body>
+</html>
